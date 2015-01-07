@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using MathTools;
-public class cameraMove : MonoBehaviour {
+public class CameraMove : MonoBehaviour {
 	public float radius;
 	public float theta;
 	public float phi;
@@ -54,6 +54,7 @@ public class cameraMove : MonoBehaviour {
 		{
 			_lookAtMousePosition = false;
 			_difMouse = new Vector3(0, 0, 0);
+			Debug.Log(phi);
 		}
 		if(_lookAtMousePosition)
 		{
