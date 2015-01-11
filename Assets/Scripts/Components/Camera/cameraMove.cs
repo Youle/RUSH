@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using MathTools;
-public class CameraMove : MonoBehaviour {
-	public float radius;
-	public float theta;
-	public float phi;
-	public float horizontalRatio;
-	public float verticalRatio;
-	public float minphi;
-	public float maxphi;
+public class cameraMove : MonoBehaviour {
+	public float radius = 8.13f;
+	public float theta = 1.6f;
+	public float phi = 2.06f;
+	public float horizontalRatio = 0.5f;
+	public float verticalRatio = 0.5f;
+	public float minphi = 0.2f;
+	public float maxphi = 0.79f;
 	public float ratioMouseMove;
 
 	private Vector3 _difMouse;
@@ -16,8 +16,6 @@ public class CameraMove : MonoBehaviour {
 	private CoordSystem.Spherical _sphCoord;
 
 	void Start () {
-		theta = 1.6f;
-		phi = 5.3f;
 		_sphCoord = new CoordSystem.Spherical (radius, theta, phi);
 		transform.position = CoordSystem.SphericalToCartesian (_sphCoord);
 	}
@@ -29,7 +27,7 @@ public class CameraMove : MonoBehaviour {
 		if(!manageMouse())
 		{
 			theta += Input.GetAxis("Horizontal") / horizontalRatio;
-			phi = Mathf.Clamp(phi + (Input.GetAxis("Vertical") / verticalRatio), minphi, maxphi);
+			phi = Mathf.Clamp(phi + (-Input.GetAxis("Vertical") / verticalRatio), minphi, maxphi);
 		}
 	}
 	Vector3 moveCameraWithMouse()
@@ -54,7 +52,6 @@ public class CameraMove : MonoBehaviour {
 		{
 			_lookAtMousePosition = false;
 			_difMouse = new Vector3(0, 0, 0);
-			Debug.Log(phi);
 		}
 		if(_lookAtMousePosition)
 		{

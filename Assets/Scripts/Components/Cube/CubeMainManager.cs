@@ -4,24 +4,31 @@ using System.Collections;
 public class CubeMainManager : MonoBehaviour {
 	private GameObject Below;
 	private GameObject Wall;
+	public static bool hasToDie;
 	public MainMetronome metronome;
 	public Vector3 positionReference;
 	public Vector3 directionReference;
+	public bool spawning;
 	public float rot;
 	// Use this for initialization
 	void Start () {
+		spawning = true;
 		metronome = GameObject.FindGameObjectWithTag("metronome").GetComponent<MainMetronome>();
 		positionReference = transform.position;
 		directionReference = transform.forward;
 		rot = transform.eulerAngles.y + 90;
-		ManageEndMetronome();
+		//ManageEndMetronome();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(metronome.ended)
+		if(metronome.ended && !hasToDie)
 		{
 			ManageEndMetronome(); 
+		}
+		else if(hasToDie)
+		{
+			GetComponent<DieMoves>().Move();
 		}
 		else{
 			if(Wall != null)
@@ -32,6 +39,12 @@ public class CubeMainManager : MonoBehaviour {
 			{
 				Below.GetComponent<BelowManager>().moveManager(transform.gameObject);
 			}
+			else if(spawning == true)
+			{
+				GetComponent<SpawnMoves>().Move();
+			}
+
+			
 			else{
 				//Fall();
 			}
@@ -39,9 +52,8 @@ public class CubeMainManager : MonoBehaviour {
 	}
 	void ManageEndMetronome()
 	{
-		if(Wall != null)
-		{
-			Debug.Log("Not Null");
+		spawning = false;
+		if(Wall != null){
 			Wall = null;
 			GetComponent<TookWallMoves>().ManageEndMetronome();
 		}
@@ -62,8 +74,7 @@ public class CubeMainManager : MonoBehaviour {
 						Wall = null;
 					}
 				}
-			}
-			
+			}	
 		}
 
 	}
@@ -88,5 +99,13 @@ public class CubeMainManager : MonoBehaviour {
 		else{
 			return null;
 		}
+	}
+
+	public void setBelow(GameObject toSet){
+		Below = toSet;
+	}
+
+	public static void KillYourSelf(){
+		hasToDie = true;
 	}
 }
