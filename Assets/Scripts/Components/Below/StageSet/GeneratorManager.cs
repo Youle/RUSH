@@ -26,13 +26,18 @@ public class GeneratorManager : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		if(metronome.ended && nbChildren < nbChildrenToCreate)
-		{
-			nbTurnSinceLastChildren++;
-			if(nbTurnSinceLastChildren == nbTurnBetweenChildren)
+		if(GameStateHandler._STATE == GameStateHandler._STATES.RUN){
+			if(metronome.ended && nbChildren < nbChildrenToCreate)
 			{
-				createCube();
+				nbTurnSinceLastChildren++;
+				if(nbTurnSinceLastChildren == nbTurnBetweenChildren)
+				{
+					createCube();
+				}
 			}
+		}
+		else if(GameStateHandler._STATE == GameStateHandler._STATES.RESET){
+			Reset();
 		}
 	}
 
@@ -50,5 +55,6 @@ public class GeneratorManager : MonoBehaviour {
 	public void Reset()
 	{
 		nbChildren = 0;
+		nbTurnSinceLastChildren = 0;
 	}
 }

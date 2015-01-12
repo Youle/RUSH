@@ -8,7 +8,6 @@ public class GameGUI : MonoBehaviour {
 	public float width;
 	public float height;
 	public static bool enabled;
-	private MainGameState gameState;
 	// Use this for initialization
 	void Start () {
 		enabled = true;
@@ -17,7 +16,6 @@ public class GameGUI : MonoBehaviour {
 		width = 200;
 		height = 30;
 		setBtnText();
-		gameState = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MainGameState>();
 	}
 	
 	void setBtnText()
@@ -26,13 +24,13 @@ public class GameGUI : MonoBehaviour {
 	}
 
 	void OnGUI(){
-		if(enabled)
+		if(GameStateHandler._STATE != GameStateHandler._STATES.RESET)
 		{
 			if(GUI.Button(new Rect(0 + margin, Screen.height - margin - height, width, height), runBtnText))
 			{
 				firstPhase = !firstPhase;
+				GameStateHandler.UIClick(firstPhase);
 				setBtnText();
-				gameState.ManageFreeze(firstPhase);
 			}
 		}
 	}

@@ -12,15 +12,18 @@ public class MainMetronome : MonoBehaviour {
 		freezed = true;
 		ratio = 0;
 		_elapsedTime = 0;
+		GameStateHandler.Init();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(!freezed)
+		if(GameStateHandler._STATE == GameStateHandler._STATES.RUN)
 		{
 			Play();
 		}
-		if(hasToRestart){hasToRestart = false;}
+		else if(GameStateHandler._STATE == GameStateHandler._STATES.RESET){
+			GameStateHandler.AskForRestart();
+		}
 	}
 	
 	void Play()

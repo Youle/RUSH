@@ -8,9 +8,7 @@ public class DieMoves : MonoBehaviour {
 		transform.Rotate(Vector3.up, Time.deltaTime, Space.World);
 		if(transform.localScale.x < 0.05)
 		{
-			Destroy(gameObject);
-			CubeMainManager.hasToDie = false;
-			MainGameState.hasRestarted();
+			GetComponent<CubeMainManager>().Delete();
 		}
 	}
 }

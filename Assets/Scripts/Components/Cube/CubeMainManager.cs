@@ -17,37 +17,37 @@ public class CubeMainManager : MonoBehaviour {
 		positionReference = transform.position;
 		directionReference = transform.forward;
 		rot = transform.eulerAngles.y + 90;
-		//ManageEndMetronome();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(metronome.ended && !hasToDie)
+		if(GameStateHandler._STATE == GameStateHandler._STATES.RUN)
 		{
-			ManageEndMetronome(); 
-		}
-		else if(hasToDie)
-		{
-			GetComponent<DieMoves>().Move();
-		}
-		else{
-			if(Wall != null)
+			if(metronome.ended)
 			{
-				GetComponent<TookWallMoves>().Move();
-			}
-			if(Below != null)
-			{
-				Below.GetComponent<BelowManager>().moveManager(transform.gameObject);
-			}
-			else if(spawning == true)
-			{
-				GetComponent<SpawnMoves>().Move();
+				ManageEndMetronome(); 
 			}
 
-			
 			else{
-				//Fall();
+				if(Wall != null)
+				{
+					GetComponent<TookWallMoves>().Move();
+				}
+				if(Below != null)
+				{
+					Below.GetComponent<BelowManager>().moveManager(transform.gameObject);
+				}
+				else if(spawning == true)
+				{
+					GetComponent<SpawnMoves>().Move();
+				}
+				else{
+					//Fall();
+				}
 			}
+		}
+		else if(GameStateHandler._STATE == GameStateHandler._STATES.RESET){
+			GetComponent<DieMoves>().Move();
 		}
 	}
 	void ManageEndMetronome()
@@ -107,5 +107,9 @@ public class CubeMainManager : MonoBehaviour {
 
 	public static void KillYourSelf(){
 		hasToDie = true;
+	}
+
+	public void Delete(){
+		Destroy(gameObject);
 	}
 }

@@ -22,4 +22,8 @@ public class StageSetManager : BelowManager {
 	{
 		Cube.GetComponent<BasicMoves>().EndMetronome();
 	}
+
+	void OnMouseOver(){
+		renderer.material.color -= new Color(0.1F, 0, 0) * Time.deltaTime;
+	}
 }
