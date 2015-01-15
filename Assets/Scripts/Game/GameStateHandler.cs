@@ -16,6 +16,7 @@ public class GameStateHandler : MonoBehaviour {
 		}
 		else{
 			_STATE = _STATES.RUN;
+			EditModeManager.UnSelectStageSet();
 		}
 	}
 

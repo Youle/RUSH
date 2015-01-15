@@ -24,6 +24,8 @@ public class StageSetManager : BelowManager {
 	}
 
 	void OnMouseOver(){
-		renderer.material.color -= new Color(0.1F, 0, 0) * Time.deltaTime;
+		if(GameStateHandler._STATE == GameStateHandler._STATES.EDIT && gameObject != EditModeManager.SelectedStageSet){
+			EditModeManager.changeSelectedStageSet(gameObject);
+		}
 	}
 }

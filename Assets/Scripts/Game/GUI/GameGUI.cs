@@ -33,5 +33,11 @@ public class GameGUI : MonoBehaviour {
 				setBtnText();
 			}
 		}
+
+		GameDatas datas = GameObject.FindGameObjectWithTag("GameDatas").GetComponent<GameDatas>();
+		for(int i = 0; i < datas.SceneEnabledSlabs.Length; i++)
+		{
+			GUI.Button(new Rect(i * 110, 0, 100, 15), datas.SceneEnabledSlabs[i].name);
+		}
 	}
 }
