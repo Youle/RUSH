@@ -16,8 +16,17 @@ public class GameGUI : MonoBehaviour {
 		width = 200;
 		height = 30;
 		setBtnText();
+
+		EditModeManager.Start();
 	}
-	
+	void Update(){
+		if (Input.GetAxis("Mouse ScrollWheel") > 0){
+			EditModeManager.IncrementSelected();
+		}
+		else if(Input.GetAxis("Mouse ScrollWheel") < 0){
+			EditModeManager.DecrementSelected();
+		}
+	}
 	void setBtnText()
 	{
 		runBtnText = runBtnStates[firstPhase ? 0 : 1];
@@ -35,9 +44,13 @@ public class GameGUI : MonoBehaviour {
 		}
 
 		GameDatas datas = GameObject.FindGameObjectWithTag("GameDatas").GetComponent<GameDatas>();
+
 		for(int i = 0; i < datas.SceneEnabledSlabs.Length; i++)
 		{
-			GUI.Button(new Rect(i * 110, 0, 100, 15), datas.SceneEnabledSlabs[i].name);
+			int marginTop = (i == EditModeManager.selected) ? 20 : 0;
+			if(GUI.Button(new Rect(i * 110, marginTop, 100, 15), datas.SceneEnabledSlabs[i].name)){
+				EditModeManager.selected = i;
+			}
 		}
 	}
 }

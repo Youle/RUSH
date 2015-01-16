@@ -10,8 +10,10 @@ public class CubeMainManager : MonoBehaviour {
 	public Vector3 directionReference;
 	public bool spawning;
 	public float rot;
+	private int fallCounter;
 	// Use this for initialization
 	void Start () {
+		fallCounter = 0;
 		spawning = true;
 		metronome = GameObject.FindGameObjectWithTag("metronome").GetComponent<MainMetronome>();
 		positionReference = transform.position;
@@ -42,7 +44,7 @@ public class CubeMainManager : MonoBehaviour {
 					GetComponent<SpawnMoves>().Move();
 				}
 				else{
-					//Fall();
+					GetComponent<FallMoves>().Move();
 				}
 			}
 		}
@@ -59,7 +61,7 @@ public class CubeMainManager : MonoBehaviour {
 		}
 		else
 		{
-			Below = checkSlab();
+			Below = checkSlab(false);
 			if(Below != null)
 			{
 				Below.GetComponent<BelowManager>().changeStateManager(transform.gameObject);
@@ -74,14 +76,22 @@ public class CubeMainManager : MonoBehaviour {
 						Wall = null;
 					}
 				}
-			}	
+			}
+
+			else{
+				GetComponent<FallMoves>().EndMetronome();
+				fallCounter++;
+				if(fallCounter == 4 && checkSlab(true) == null){
+					//Game Over
+				}
+			}
 		}
 
 	}
 
-	GameObject checkSlab(){
+	GameObject checkSlab(bool infiniteDistance){
 		RaycastHit hit;
-		if(Physics.Raycast(transform.position, Vector3.down, out hit) && hit.distance < 1){
+		if(Physics.Raycast(transform.position, Vector3.down, out hit) && (infiniteDistance || hit.distance < 1) && hit.transform.name != "coloredCube"){
 			return hit.transform.gameObject;
 		}
 		else
@@ -92,7 +102,7 @@ public class CubeMainManager : MonoBehaviour {
 
 	GameObject checkWall(){
 		RaycastHit hit;
-		if(Physics.Raycast(transform.position, directionReference, out hit) && hit.distance < 1)
+		if(Physics.Raycast(transform.position, directionReference, out hit) && hit.distance < 1 && hit.transform.name == "stageSet")
 		{
 			return hit.transform.gameObject;
 		}
@@ -111,5 +121,12 @@ public class CubeMainManager : MonoBehaviour {
 
 	public void Delete(){
 		Destroy(gameObject);
+	}
+
+	void OnTriggerEnter(Collider collider){
+		if(collider.tag == "ColoredCube")
+		{
+			// Game OVER !
+		}
 	}
 }
