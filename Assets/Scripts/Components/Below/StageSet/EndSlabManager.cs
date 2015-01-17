@@ -9,27 +9,29 @@ public class EndSlabManager : MonoBehaviour {
 		toDestroy = false;
 		renderer.material = Color;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	void Move(GameObject Cube)
 	{
-		Cube.GetComponent<DispawnMoves>().Move();
+		if(Cube.renderer.material.color == renderer.material.color){
+			Cube.GetComponent<DispawnMoves>().Move();
+		}
+		else{
+			Cube.GetComponent<BasicMoves>().Move();
+		}
 	}
 
 	void OnMetronomeEnd(GameObject Cube)
 	{
-		if(toDestroy)
-		{
-			Destroy(Cube);
+		if(Cube.renderer.material.color == renderer.material.color){
+			if(toDestroy)
+			{
+				Destroy(Cube);
+				GameStateHandler.CubeReleased();
+			}
+			toDestroy = !toDestroy;
 		}
-		toDestroy = !toDestroy;
-	}
-
-	public void Reset(){
-		
+		else{
+			Cube.GetComponent<BasicMoves>().EndMetronome();
+		}
 	}
 }

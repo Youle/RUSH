@@ -35,21 +35,32 @@ public class GameGUI : MonoBehaviour {
 	void OnGUI(){
 		if(GameStateHandler._STATE != GameStateHandler._STATES.RESET)
 		{
-			if(GUI.Button(new Rect(0 + margin, Screen.height - margin - height, width, height), runBtnText))
+			if(GameStateHandler._STATE == GameStateHandler._STATES.WIN)
 			{
-				firstPhase = !firstPhase;
-				GameStateHandler.UIClick(firstPhase);
-				setBtnText();
+				if(GUI.Button(new Rect(0 + margin, Screen.height - margin - height, width, height), "Retour au menu")){
+
+				}
+			}
+			else{
+				if(GUI.Button(new Rect(0 + margin, Screen.height - margin - height, width, height), runBtnText))
+				{
+					firstPhase = !firstPhase;
+					GameStateHandler.UIClick(firstPhase);
+					setBtnText();
+				}
 			}
 		}
 
-		GameDatas datas = GameObject.FindGameObjectWithTag("GameDatas").GetComponent<GameDatas>();
-
-		for(int i = 0; i < datas.SceneEnabledSlabs.Length; i++)
+		for(int i = 0; i < EditModeManager.Slabs.Length; i++)
 		{
-			int marginTop = (i == EditModeManager.selected) ? 20 : 0;
-			if(GUI.Button(new Rect(i * 110, marginTop, 100, 15), datas.SceneEnabledSlabs[i].name)){
+			Color thisColor = GUI.color;
+			thisColor.a = (EditModeManager.nbSlabs[i] == 0) ? 0.5f : 1;
+			GUI.color = thisColor;
+			int marginTop = (i == EditModeManager.selected && EditModeManager.allStageSetPlaced == false) ? 20 : 0;
+			if(GUI.Button(new Rect(i * 110, marginTop, 160, 15), EditModeManager.Slabs[i].name + " (" + EditModeManager.nbSlabs[i] + ")")){
 				EditModeManager.selected = i;
+			}
+			if(EditModeManager.nbSlabs[i] == 0){
 			}
 		}
 	}

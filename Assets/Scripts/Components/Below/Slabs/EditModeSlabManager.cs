@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class EditModeSlabManager : MonoBehaviour {
-
+	public GameObject stageSet;
 	// Use this for initialization
 	void Start () {
 	
@@ -31,7 +31,8 @@ public class EditModeSlabManager : MonoBehaviour {
 		    	EditModeManager.PlaceSlab();
 		    }
 		    if(Input.GetMouseButtonUp(1)){
-				EditModeManager.RemoveSlab();
+				EditModeManager.RemoveSlab(transform.name);
+				stageSet.GetComponent<StageSetManager>().Clear();
 				Destroy(gameObject);
 	    	}
 	    }

@@ -14,6 +14,7 @@ public class GeneratorManager : MonoBehaviour {
 		renderer.material = Color;
 		nbChildren = 0;
 		metronome = GameObject.FindGameObjectWithTag("metronome").GetComponent<MainMetronome>();
+		GameDatas.AddCubesToRelease(nbChildrenToCreate);
 	}
 	
 	void createCube(){

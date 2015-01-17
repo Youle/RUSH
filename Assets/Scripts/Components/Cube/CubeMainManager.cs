@@ -82,7 +82,7 @@ public class CubeMainManager : MonoBehaviour {
 				GetComponent<FallMoves>().EndMetronome();
 				fallCounter++;
 				if(fallCounter == 4 && checkSlab(true) == null){
-					//Game Over
+					GameStateHandler.GameOver();
 				}
 			}
 		}
@@ -126,7 +126,7 @@ public class CubeMainManager : MonoBehaviour {
 	void OnTriggerEnter(Collider collider){
 		if(collider.tag == "ColoredCube")
 		{
-			// Game OVER !
+			GameStateHandler.GameOver();
 		}
 	}
 }
