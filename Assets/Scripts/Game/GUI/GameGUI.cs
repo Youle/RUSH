@@ -8,6 +8,8 @@ public class GameGUI : MonoBehaviour {
 	public float width;
 	public float height;
 	public static bool enabled;
+
+	public GUIStyle customButton;
 	// Use this for initialization
 	void Start () {
 		enabled = true;
@@ -53,11 +55,12 @@ public class GameGUI : MonoBehaviour {
 
 		for(int i = 0; i < EditModeManager.Slabs.Length; i++)
 		{
+			//GUISkin myGUISkin = Resources.Load("ButtonsSkin");
 			Color thisColor = GUI.color;
 			thisColor.a = (EditModeManager.nbSlabs[i] == 0) ? 0.5f : 1;
 			GUI.color = thisColor;
 			int marginTop = (i == EditModeManager.selected && EditModeManager.allStageSetPlaced == false) ? 20 : 0;
-			if(GUI.Button(new Rect(i * 110, marginTop, 160, 15), EditModeManager.Slabs[i].name + " (" + EditModeManager.nbSlabs[i] + ")")){
+			if(GUI.Button(new Rect(i * 110, marginTop, 160, 15), EditModeManager.Slabs[i].name + " (" + EditModeManager.nbSlabs[i] + ")", customButton)){
 				EditModeManager.selected = i;
 			}
 			if(EditModeManager.nbSlabs[i] == 0){
